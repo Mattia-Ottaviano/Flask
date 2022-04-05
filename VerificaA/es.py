@@ -69,12 +69,10 @@ def input():
 @app.route('/ricerca', methods=['GET'])
 def ricerca():
     global quartiere, stazioni_quartiere
-
-    nome_quartiere = request.args['quartiere']
-    quartiere = quartieri[quartieri.NIL.str.contains(nome_quartiere)]
-    stazioni_quartiere = stazionigeo[stazionigeo.within(quartiere.geometry.squeeze())]
- 
-    return render_template('elenco1.html', risultato = stazioni_quartiere.to_html())
+    nome_quartiere= request.args['quartiere']
+    quartiere=quartieri[quartieri.NIL.str.contains(nome_quartiere)]
+    stazioni_quartiere= stazionigeo[stazionigeo.within(quartiere.geometry.squeeze())]
+    return render_template('elenco1.html',risultato=stazioni_quartiere.to_html())
 
 
 
@@ -106,7 +104,7 @@ def sceltastazione():
     stazione_utente = stazionigeo[stazionigeo.OPERATORE==stazione]
     quartiere1 = quartieri[quartieri.contains(stazione_utente.geometry.squeeze())]
 
-    return render_template('vistastazione.html', quartiere = quartiere1)
+    return render_template('vistastazione.html', quartiere = quartiere1.NIL)
 
 
 @app.route('/mappaquart', methods=['GET'])
