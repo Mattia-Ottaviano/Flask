@@ -21,6 +21,7 @@ quartieri= gpd.read_file('/workspace/Flask/AppEs6/ds964_nil_wm-20220322T111617Z-
 def home():
     return render_template('home.html')
 
+#ESERCIZIO 1
 
 @app.route('/scelta', methods=['GET'])
 def scelta():
@@ -34,8 +35,57 @@ def radquart():
     info_quartiere = quartieri[quartieri.NIL.str.contains(quartiere_scelto)]
     print(info_quartiere)
     staz_in_quart = stazionigeo[stazionigeo.within(info_quartiere.geometry.squeeze())]
-    
     return render_template('elencostazioni.html',risultato=staz_in_quart.to_html())
+
+
+#ESERCIZIO 2
+
+@app.route('/trova', methods=['GET'])
+def trova():
+    return render_template('inputquart.html')
+
+
+@app.route('/ricerca', methods=['GET'])
+def ricerca():
+    quartiere_input = request.args['quartiere']
+    print(quartiere_input)
+    global info_quartiere, stazioni_quartiere
+    info_quartiere = quartieri[quartieri.NIL.str.contains(quartiere_input.upper())]
+    print(info_quartiere)
+    stazioni_quartiere = stazionigeo[stazionigeo.within(info_quartiere.geometry.squeeze())]
+
+    if len(info_quartiere) == 0:
+        risultato = 'quaritere non trovato'
+        return render_template('erroreinputes2.html', risultato = risultato)
+    else:
+        risultato = info_quartiere.to_html()
+        return render_template('mappa.html')
+
+
+@app.route('/mappa', methods=['GET'])
+def mappa():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    stazioni_quartiere.to_crs(epsg=3857).plot(ax=ax, color='k')
+    info_quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+
+#ESERCIZIO 3
+
+
+
+
+
+
+
+
+
 
 
 
