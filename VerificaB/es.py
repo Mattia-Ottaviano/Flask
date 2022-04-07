@@ -79,26 +79,32 @@ def mappa():
 #ESERCIZIO 3
 
 
+@app.route('/grafico', methods=['GET'])
+def grafico():
+    #numero stazioni per ogni municipio
+    global risultato
+    risultato=stazioni.groupby("MUNICIPIO")["UBICAZIONE"].count().reset_index()
+    return render_template('grafico.html',risultato=risultato.to_html())
 
 
 
+@app.route('/outputgrafico', methods=['GET'])
+def outputgrafico():
+    
+    fig, ax = plt.subplots(figsize = (6,4))
 
+    x = risultato.MUNICIPIO
+    y = risultato.UBICAZIONE
+    ax.bar(x, y, color = "#304C89")
+    
+    #visualizzazione grafico
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
 
+    return Response(output.getvalue(), mimetype='image/png')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
 
 
 
