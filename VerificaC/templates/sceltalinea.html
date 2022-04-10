@@ -1,0 +1,8 @@
+<form action="/visualizza" method = "GET">
+    <select name="mezzo" >
+        {% for mezzo in Mezzi%}
+        <option value="{{mezzo}}" >{{mezzo}}</option> 
+        {%endfor%}
+    </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
