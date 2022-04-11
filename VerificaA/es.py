@@ -103,6 +103,7 @@ def sceltastazione():
     stazione = request.args['stazione']
     stazione_utente = stazionigeo[stazionigeo.OPERATORE==stazione]
     quartiere1 = quartieri[quartieri.contains(stazione_utente.geometry.squeeze())]
+    print(quartiere1)
 
     return render_template('vistastazione.html', quartiere = quartiere1.NIL)
 

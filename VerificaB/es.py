@@ -58,7 +58,7 @@ def ricerca():
         risultato = 'quaritere non trovato'
         return render_template('erroreinputes2.html', risultato = risultato)
     else:
-        risultato = info_quartiere.to_html()
+        
         return render_template('mappa.html')
 
 
