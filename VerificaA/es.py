@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 stazioni=pd.read_csv('/workspace/Flask/VerificaA/coordfix_ripetitori_radiofonici_milano_160120_loc_final.csv', sep=';')
 stazionigeo= gpd.read_file('/workspace/Flask/VerificaA/ds710_coordfix_ripetitori_radiofonici_milano_160120_loc_final.geojson', sep=';')
-quartieri= gpd.read_file('/workspace/Flask/AppEs6/ds964_nil_wm-20220322T111617Z-001.zip', sep=';')
+quartieri= gpd.read_file('/workspace/Flask/VerificaA/ds964_nil_wm-20220322T111617Z-001.zip', sep=';')
 
 
 @app.route('/', methods=['GET'])
@@ -81,12 +81,13 @@ def mappa():
 
     fig, ax = plt.subplots(figsize = (12,8))
 
-    stazioni_quartiere.to_crs(epsg=3857).plot(ax=ax, color='k')
+    stazioni_quartiere.to_crs(epsg=3857).plot(ax=ax)
     quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
     contextily.add_basemap(ax=ax)
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
+
 
 
 @app.route('/dropdown', methods=['GET'])

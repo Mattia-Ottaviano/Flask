@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 #Dichiarazioni delle dataframe
 Mezzi=gpd.read_file('/workspace/Flask/VerificaC/tpl_percorsi_shp (1).zip')
-quartieri = gpd.read_file('/workspace/Flask/AppEs6/ds964_nil_wm-20220322T111617Z-001.zip', sep=';')
+quartieri = gpd.read_file('/workspace/Flask/VerificaC/ds964_nil_wm-20220322T111617Z-001.zip')
 
 #Home
 @app.route('/', methods=['GET'])
@@ -107,7 +107,7 @@ def mappapng():
 
     fig, ax = plt.subplots(figsize = (12,8))
 
-    quartieri.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    quartieri.to_crs(epsg=3857).plot(ax=ax, alpha=0.1)
     mezzi20=Mezzi[Mezzi.linea==Linea_utente]
     mezzi20.to_crs(epsg=3857).plot(ax=ax)
     contextily.add_basemap(ax=ax)   
