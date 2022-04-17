@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 comuni= gpd.read_file('/workspace/Flask/VerificaA2/Comuni.zip')
 province = gpd.read_file('/workspace/Flask/VerificaA2/Province.zip')
 regioni = gpd.read_file('/workspace/Flask/VerificaA2/Regioni.zip')
-print(comuni)
+print(regioni)
 
 @app.route("/", methods=["GET"])
 def home():
@@ -27,15 +27,15 @@ def selezione():
     if scelta=="es1":
         return render_template('input.html')
     elif scelta=="es2":
-        return redirect(url_for("input"))
+        return render_template('elencoProv.html', province = province['DEN_UTS'].sort_values(ascending=True))
     elif scelta=="es3":
-        return redirect(url_for("dropdown"))
+        return render_template('elencoReg.html', regioni = regioni['DEN_REG'].sort_values(ascending=True))
 
-  
+#ES1
 @app.route('/input', methods=['GET'])
 def input():
     com_user = request.args['com']
-    global info_com,com_limitrofi
+    global info_com,com_limitrofi, area_com
     info_com = comuni[comuni.COMUNE.str.contains(com_user.title())]
     area_com = info_com.geometry.area/10**6
     com_limitrofi = comuni[comuni.touches(info_com.geometry.squeeze())].sort_values(by='COMUNE', ascending=True)
@@ -53,6 +53,30 @@ def mappaCom():
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
+
+#ES2
+@app.route("/elencoProv", methods=["GET"])
+def elencoProv():
+    global prov, info_prov, com_in_prov
+    prov = request.args['provincia']
+    info_prov = province[province['DEN_UTS'].str.contains(prov.title())]
+    com_in_prov = comuni[comuni.within(info_prov.geometry.squeeze())]
+    return render_template("elencoCom.html", com_in_prov = com_in_prov['COMUNE'].sort_values(ascending=True))
+
+
+@app.route("/elencoCom", methods=["GET"])
+def elencoCom():
+    
+    return render_template('mappaCom.html', com = com_limitrofi.to_html(), area = area_com)
+
+#ES3
+@app.route("/elencoReg", methods=["GET"])
+def elencoReg():
+    reg = request.args['regione']
+    info_reg = regioni[regioni['DEN_REG'].str.contains(reg.title())]
+    prov_in_reg = province[province.within(info_reg.geometry.squeeze())]
+    return render_template("elencoProv.html", province = prov_in_reg['DEN_PROV'].sort_values(ascending=True))
+
 
 
 

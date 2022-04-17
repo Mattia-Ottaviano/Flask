@@ -1,0 +1,8 @@
+<form action="/elencoCom" method = "GET">
+    <select name="comune">
+        {% for comune in com_in_prov%}
+        <option value="{{comune}}">{{comune}}</option>
+        {%endfor%}
+    </select>
+    <p><input type = "submit" value = "Clicca Qui" /></p>
+</form>

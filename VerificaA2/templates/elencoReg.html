@@ -1,0 +1,8 @@
+<form action="/elencoReg" method = "GET">
+    <select name="regione">
+        {% for regione in regioni%}
+        <option value="{{regione}}">{{regione}}</option>
+        {%endfor%}
+    </select>
+    <p><input type = "submit" value = "Clicca Qui" /></p>
+</form>
