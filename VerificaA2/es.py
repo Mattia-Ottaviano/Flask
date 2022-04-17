@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 comuni= gpd.read_file('/workspace/Flask/VerificaA2/Comuni.zip')
 province = gpd.read_file('/workspace/Flask/VerificaA2/Province.zip')
 regioni = gpd.read_file('/workspace/Flask/VerificaA2/Regioni.zip')
-print(regioni)
+print(comuni)
 
 @app.route("/", methods=["GET"])
 def home():
@@ -36,7 +36,7 @@ def selezione():
 def input():
     com_user = request.args['com']
     global info_com,com_limitrofi, area_com
-    info_com = comuni[comuni.COMUNE.str.contains(com_user.title())]
+    info_com = comuni[comuni.COMUNE.str.contains(com_user)]
     area_com = info_com.geometry.area/10**6
     com_limitrofi = comuni[comuni.touches(info_com.geometry.squeeze())].sort_values(by='COMUNE', ascending=True)
     return render_template('mappaCom.html', com = com_limitrofi.to_html(), area = area_com)
