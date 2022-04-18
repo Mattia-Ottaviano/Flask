@@ -21,7 +21,7 @@ regioni = gpd.read_file('/workspace/Flask/VerificaA2.1/Regioni.zip')
 def home():
     return render_template("home.html")
 
-
+#ES1
 @app.route("/input", methods=["GET"])
 def input():
     return render_template("input.html")
@@ -48,8 +48,33 @@ def mappaes1():
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
 
-    
+#ES2    
 
+@app.route("/dropdown", methods=["GET"])
+def dropdown():
+    return render_template("elencoReg.html", regioni = regioni['DEN_REG'].sort_values(ascending=True))
+
+
+@app.route("/elencoReg", methods=["GET"])
+def elencoReg():
+    regUtente = request.args['regione']
+    info_reg = regioni[regioni.DEN_REG.str.contains(regUtente)]
+    prov_in_reg = province[province.within(info_reg.geometry.squeeze())]
+    return render_template("elencoProv.html", province = prov_in_reg.DEN_UTS.sort_values(ascending=True))
+
+
+@app.route("/elencoProv", methods=["GET"])
+def elencoProv():
+    provUtente = request.args['provincia']
+    info_prov = province[province.DEN_UTS.str.contains(provUtente)]
+    area_prov = info_prov.geometry.area/10**6
+    return render_template("mappaes1.html", area_prov = area_prov)
+
+#ES3
+
+@app.route("/elenco", methods=["GET"])
+def elenco():
+    return render_template("elencoRipartizioni.html")
 
 
 if __name__ == '__main__':

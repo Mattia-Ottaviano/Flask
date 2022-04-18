@@ -1,0 +1,8 @@
+<form action="/elencoProv" method = "GET">
+    <select name="provincia">
+        {% for provincia in province%}
+        <option value="{{provincia}}">{{provincia}}</option>
+        {%endfor%}
+    </select>
+    <p><input type = "submit" value = "Clicca Qui" /></p>
+</form>
