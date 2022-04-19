@@ -1,7 +1,7 @@
-<form action="/elencoProv" method = "GET">
-    <select name="provincia">
-        {% for provincia in province%}
-        <option value="{{provincia}}">{{provincia}}</option>
+<form action="/elencoRip" method = "GET">
+    <select name="ripartizione">
+        {% for ripartizione in ripartizioni%}
+        <option value="{{ripartizione}}">{{ripartizione}}</option>
         {%endfor%}
     </select>
     <p><input type = "submit" value = "Clicca Qui" /></p>

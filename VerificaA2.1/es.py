@@ -15,7 +15,8 @@ import matplotlib.pyplot as plt
 comuni= gpd.read_file('/workspace/Flask/VerificaA2.1/Comuni.zip')
 province = gpd.read_file('/workspace/Flask/VerificaA2.1/Province.zip')
 regioni = gpd.read_file('/workspace/Flask/VerificaA2.1/Regioni.zip')
-
+ripartizioni = gpd.read_file('/workspace/Flask/VerificaA2.1/Ripartizioni.zip')
+print(ripartizioni)
 
 @app.route("/", methods=["GET"])
 def home():
@@ -57,6 +58,7 @@ def dropdown():
 
 @app.route("/elencoReg", methods=["GET"])
 def elencoReg():
+
     regUtente = request.args['regione']
     info_reg = regioni[regioni.DEN_REG.str.contains(regUtente)]
     prov_in_reg = province[province.within(info_reg.geometry.squeeze())]
@@ -74,7 +76,20 @@ def elencoProv():
 
 @app.route("/elenco", methods=["GET"])
 def elenco():
-    return render_template("elencoRipartizioni.html")
+    return render_template("elencoRipartizioni.html", ripartizioni = ripartizioni.DEN_RIP.sort_values(ascending=True))
+
+
+@app.route("/elencoRip", methods=["GET"])
+def elencoRip():
+    ripUtente = request.args['ripartizione']
+    info_rip = ripartizioni[ripartizioni.DEN_RIP.str.contains(ripUtente)]
+    reg_in_rip = regioni[regioni.within(info_rip.geometry.squeeze())]
+    return render_template("elencoReg.html", regioni = reg_in_rip['DEN_REG'].sort_values(ascending=True))
+
+
+
+
+
 
 
 if __name__ == '__main__':
