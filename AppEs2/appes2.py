@@ -29,10 +29,6 @@ def dates():
        lst.append({'name':Name,'username':Username,'password':Pass,'sex':Sex})
        print(lst)
        return render_template('login.html')
-       if Sex=='M':
-           return render_template('welcome.html', nome=Name)
-       else:
-           return render_template('welcomeW.html', nome=Name)
     else:
         return render_template('ConfPass.html')
 
