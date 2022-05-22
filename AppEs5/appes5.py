@@ -56,18 +56,18 @@ def ric():
     dfcitta = df2[df2['citta']==citta]
 
     
-    if dfSquadra ==  df2[df2['squadra']==squadra:
+    if dfSquadra ==  df2[df2['squadra']==squadra]:
         return render_template('risultato.html', tables=[dfSquadra.to_html()], titles=[''])
     else:
         return render_template('errore.html') 
     
-    if dfAnno ==  df2[df2['anno']==anno:
+    if dfAnno ==  df2[df2['anno']==anno]:
         return render_template('risultato.html', tables=[dfAnno.to_html()], titles=[''])
     else:
         return render_template('errore.html') 
 
     
-    if dfcitta ==  df2[df2['citta']==citta:
+    if dfcitta ==  df2[df2['citta']==citta]:
         return render_template('risultato.html', tables=[dfcitta.to_html()], titles=[''])
     else:
         return render_template('errore.html') 

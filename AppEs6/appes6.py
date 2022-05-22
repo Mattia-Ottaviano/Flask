@@ -106,28 +106,6 @@ def plot35():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @app.route('/fontmenu', methods=("POST", "GET"))
 def fontmenu():   
       return render_template("fontmenu.html", milano= milano["NIL"])
