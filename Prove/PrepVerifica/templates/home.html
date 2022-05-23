@@ -4,7 +4,7 @@
 
     <form action="/reg" method = "GET">
         <select name="Regioni" id="Regioni" method="GET">
-            {% for i in reg%}
+            {% for i in reg%} <!-- reg è la lista delle regioni che gli passiamo come parametro dal codice python -->
             <option value="{{i}}" SELECTED>{{i}}</option>
             {%endfor%}
           </select>

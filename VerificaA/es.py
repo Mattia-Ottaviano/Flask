@@ -33,6 +33,7 @@ def selezione():
 
 
 
+
 @app.route('/numero', methods=['GET'])
 def numero():
     #numero stazioni per ogni municipio
@@ -40,7 +41,6 @@ def numero():
     risultato=stazioni.groupby("MUNICIPIO")["OPERATORE"].count().reset_index()
     return render_template('elenco.html',risultato=risultato.to_html())
 
-       
 
 @app.route('/grafico', methods=['GET'])
 def grafico():
@@ -58,6 +58,7 @@ def grafico():
 
     return Response(output.getvalue(), mimetype='image/png')
 
+       
 
 
 @app.route('/input', methods=['GET'])

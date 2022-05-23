@@ -3,15 +3,24 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def hello_world():
-    return render_template("index.html")
+    testo = "Welcome"
+    return render_template("index.html", testo = testo)
 
 @app.route('/it', methods=['GET'])
 def Ciao_Mondo():
-    return ('<h1>Ciapo, Mondo!</h1>')
+    testo = "Benvenuto"
+    return render_template("index.html", testo = testo)
 
 @app.route('/fr', methods=['GET'])
 def Bonjour():
-    return ('<h1>Bonjour, Monde!</h1>')
+    testo = "Bonjour"
+    return render_template("index.html", testo = testo)
+
+
+@app.route('/data', methods=['GET'])
+def data():
+    testo = "Bonjour"
+    return render_template("index.html", testo = testo)
 
 
 if __name__ == '__main__':
